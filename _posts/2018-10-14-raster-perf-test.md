@@ -2,6 +2,7 @@
 title: "GeoTIFF, VRT, WarpedVRT 읽기 속도 비교"
 date: 2018-10-14 01:51:28 +0900
 categories: computer
+tag: [python, gis, gdal, rasterio, raster, vrt, WarpedVRT] 
 ---
 
 본 포스트는 [GeoTIFF][gdal-geotiff], [GDAL Virtual Format][gdal-vrt], [WarpedVRT][warpedvrt] 등
