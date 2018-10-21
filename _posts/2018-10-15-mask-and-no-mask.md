@@ -81,8 +81,9 @@ Python GDAL을 사용하지 않고 rasterio 코드를 사용하면서도 비슷�
 import numpy
 import rasterio
 
-d = rasterio.open('dem.tiff')
-d = numpy.ma.array(d, mask=(d==d.profile['nodata']))
+r = rasterio.open('dem.tiff')
+d = r.read(1)
+d = numpy.ma.array(d, mask=(d==r.profile['nodata']))
 
 ```
 
