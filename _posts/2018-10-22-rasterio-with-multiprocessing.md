@@ -77,10 +77,17 @@ out_rast.close()
 [GDAL][gdal]에서 사용하는 [GeoTIFF][gdal-geotiff]는 읽기에 대해서는 [thread-save][gdalts]이지만, 
 쓰기에 대해서는 그렇지 않습니다.
 더욱이 래스터 파일을 GeoTIFF 형식으로 저장할 때 [deflate][deflate] 압축 
-기법을 사용하는데 이것으로 인해 많은 연산이 요구됩니다.
-다음 포스트에서는 
-파일 저장을 병렬로 처리하여 멀티프로세스를 이용한 장점이 부각되는 결과를 제시해 보도록 하겠습니다.
+기법을 사용하는데 이것으로 인해 많은 연산이 요구됩니다. 따라서 저장하는 부분의 병목 지점을 보완해야 합니다. 
+사실 이것을 위해 선택지는 별로 없습니다. 적당한 타협은 `GDAL_NUM_THREADS` 를 사용하여 GeoTIFF 저장시 `libtiff` 가
+멀티스레드를 이용하도록 하는 것입니다. `GDAL_NUM_THREADS=ALL_CPUS` 를 이용하여 모든 CPU를 이용하도록 하거나, 스래드 
+개수를 정수로 지정하면 됩니다.
 
+4 코어를 이용하여 테스트 해 본 결과 아래와 같았습니다.
+
+![프로세스 개수 증가에 따른 속도 변화]({{ "/assets/img/posts/2018/10/22/processes-and-elapsedtime-2.png" | absolute_url }})
+
+스레드를 사용한 경우와 사용하지 않은 경우의 시간 차이가 프로세스 개수에 상관 없이 20초 정도로 일정합니다. 
+프로세스를 더 투입해도 스레드 사용 여부에 따라 얻는 이득은 동일하다고 해석됩니다.
 
 [gdal]: https://www.gdal.org/
 [gdalts]: https://trac.osgeo.org/gdal/wiki/FAQMiscellaneous#IstheGDALlibrarythread-safe
