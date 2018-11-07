@@ -49,7 +49,7 @@ def process_block_window(args):
     xy, window = args
     x = 0
     for raster in raster_ary:
-        x += raster
+        x += raster.read(1, masked=True)
     x /= len(raster_ary)
     return x, window
 
